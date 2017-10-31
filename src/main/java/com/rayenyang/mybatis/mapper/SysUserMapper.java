@@ -28,4 +28,8 @@ public interface SysUserMapper {
     int deleteById(long id);
     
     SysRole testMultiArgs(@Param("id") long id, @Param("enabled") boolean enabled);
+    
+    SysUser selectWithIf(@Param("username") String username, @Param("password") String password);
+    
+    SysUser selectWithChoose(SysUser sysUser);
 }

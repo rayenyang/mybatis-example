@@ -78,5 +78,30 @@
             JOIN sys_role r ON r.id = ur.role_id
         WHERE u.id = #{id} AND r.enabled = #{enabled}
     </select>
+    <!--##############################################################-->
+    <select id="selectWithIf" resultType="SysUser">
+        SELECT * FROM sys_user WHERE 1=1
+        <if test="username != null and username != ''">
+            AND username=#{username}
+        </if>
+        <if test="password != null and password != ''">
+            AND user_password=#{password}
+        </if>
+    </select>
+    <!--############################################################-->
+    <select id="selectWithChoose" resultType="com.rayenyang.mybatis.pojo.SysUser">
+        SELECT * FROM sys_user WHERE 1=1
+        <choose>
+            <when test="id != null and id != ''">
+                AND id=#{id}
+            </when>
+            <when test="userName != null and userName != ''">
+                AND username=#{userName}
+            </when>
+            <otherwise>
+                AND 1=2
+            </otherwise>
+        </choose>
+    </select>
 
 </mapper>

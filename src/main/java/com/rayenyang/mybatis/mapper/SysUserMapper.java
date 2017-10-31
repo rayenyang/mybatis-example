@@ -32,4 +32,6 @@ public interface SysUserMapper {
     SysUser selectWithIf(@Param("username") String username, @Param("password") String password);
     
     SysUser selectWithChoose(SysUser sysUser);
+    
+    SysUser selectWithWhere(SysUser sysUser);
 }

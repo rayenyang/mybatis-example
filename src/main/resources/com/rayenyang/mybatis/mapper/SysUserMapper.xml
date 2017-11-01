@@ -72,7 +72,9 @@
     <!--##############################################################-->
 
     <select id="testMultiArgs" resultType="SysRole">
-        SELECT u.username AS 'user.userName',r.role_name
+        SELECT
+            u.username AS 'user.userName',
+            r.role_name
         FROM sys_user u
             JOIN sys_user_role ur ON u.id = ur.user_id
             JOIN sys_role r ON r.id = ur.role_id
@@ -112,6 +114,44 @@
             </if>
             <if test="password != null and password != ''">
                 AND user_password = #{password}
+            </if>
+        </where>
+    </select>
+    <!--############################################################-->
+    <update id="updateWithSet">
+        UPDATE sys_user
+        <set>
+            <if test="userName != null">
+                username=#{userName},
+            </if>
+            <if test="password != null">
+                user_password=#{password},
+            </if>
+            <if test="userEmail != null">
+                user_email=#{userEmail},
+            </if>
+            <if test="userInfo != null">
+                user_info=#{userInfo},
+            </if>
+            <if test="headImg != null">
+                head_img=#{headImg},
+            </if>
+            <if test="createTime != null">
+                create_time=#{createTime},
+            </if>
+            id=#{id}
+        </set>
+        WHERE id=#{id}
+    </update>
+    <!--############################################################-->
+    <select id="selectWithFor" resultType="com.rayenyang.mybatis.pojo.SysUser">
+        SELECT * FROM sys_user
+        <where>
+            <if test="idList != null and idList.size > 0">
+                id in
+                <foreach collection="idList" open="(" close=")" index="i" item="id" separator=",">
+                    #{id}
+                </foreach>
             </if>
         </where>
     </select>

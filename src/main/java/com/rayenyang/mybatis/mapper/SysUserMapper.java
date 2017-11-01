@@ -34,4 +34,8 @@ public interface SysUserMapper {
     SysUser selectWithChoose(SysUser sysUser);
     
     SysUser selectWithWhere(SysUser sysUser);
+    
+    int updateWithSet(SysUser sysUser);
+    
+    List<SysUser> selectWithFor(@Param("idList") List<Long> idList);
 }

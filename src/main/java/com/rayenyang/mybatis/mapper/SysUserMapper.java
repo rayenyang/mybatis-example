@@ -5,6 +5,7 @@ import com.rayenyang.mybatis.pojo.SysUser;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * description:
@@ -38,4 +39,6 @@ public interface SysUserMapper {
     int updateWithSet(SysUser sysUser);
     
     List<SysUser> selectWithFor(@Param("idList") List<Long> idList);
+    
+    List<SysUser> selectWithForMap(@Param("args") Map<String, Object> args);
 }

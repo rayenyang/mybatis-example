@@ -155,5 +155,13 @@
             </if>
         </where>
     </select>
+    <select id="selectWithForMap" resultType="com.rayenyang.mybatis.pojo.SysUser">
+        SELECT * FROM sys_user
+        <where>
+            <foreach collection="args" index="key" item="val" separator="AND">
+                ${key}=#{val}
+            </foreach>
+        </where>
+    </select>
 
 </mapper>

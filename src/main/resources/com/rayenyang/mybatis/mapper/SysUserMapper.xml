@@ -3,6 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.rayenyang.mybatis.mapper.SysUserMapper">
+
     <resultMap id="userMap" type="SysUser">
         <id property="id" column="id"/>
         <result property="userName" column="username"/>
@@ -13,6 +14,32 @@
         <result property="createTime" column="create_time"/>
     </resultMap>
 
+    <resultMap id="userRoleMap" type="SysUser" extends="userMap">
+        <association property="role"
+                     resultMap="com.rayenyang.mybatis.mapper.SysRoleMapper.roleMap"/>
+    </resultMap>
+
+    <resultMap id="userRoleMap2" type="SysUser" extends="userMap">
+        <association property="role" column="{id=role_id}"
+                     select="com.rayenyang.mybatis.mapper.SysRoleMapper.selectById"
+                     fetchType="lazy"/>
+    </resultMap>
+
+    <resultMap id="userRoleMap3" type="SysUser" extends="userMap">
+        <collection property="roleList" ofType="SysRole"
+                    columnPrefix="role_"
+                    resultMap="com.rayenyang.mybatis.mapper.SysRoleMapper.roleMap"
+        />
+    </resultMap>
+
+    <resultMap id="userRoleMap4" type="SysUser" extends="userMap">
+        <collection property="roleList" ofType="SysRole"
+                    column="{id=role_id}"
+                    fetchType="lazy"
+                    select="com.rayenyang.mybatis.mapper.SysRoleMapper.selectById"/>
+    </resultMap>
+
+    <!-- ********************************************************************** -->
     <select id="selectById" resultMap="userMap">
         SELECT *
         FROM sys_user
@@ -34,7 +61,7 @@
         WHERE u.id = #{id}
     </select>
 
-    <!--##############################################################-->
+    <!--############### insert 标签 返回主键的2种方式 #############################-->
     <insert id="insertUser">
         INSERT INTO sys_user (username, user_password, user_email, user_info, head_img, create_time) VALUES (
             #{userName}, #{password}, #{userEmail}, #{userInfo}, #{headImg, jdbcType=BLOB},
@@ -54,7 +81,7 @@
             SELECT last_insert_id()
         </selectKey>
     </insert>
-    <!--###############################################################-->
+    <!--############## update 标签 ########################################-->
     <update id="update">
         UPDATE sys_user
         SET username    = #{userName}, user_password = #{password},
@@ -63,13 +90,13 @@
         WHERE id = #{id}
     </update>
 
-    <!--###############################################################-->
+    <!--############## delete 标签 ######################################-->
     <delete id="deleteById">
         DELETE FROM sys_user
         WHERE id = #{id}
     </delete>
 
-    <!--##############################################################-->
+    <!--############## 接口方法多个参数使用@Param ###########################-->
 
     <select id="testMultiArgs" resultType="SysRole">
         SELECT
@@ -80,7 +107,7 @@
             JOIN sys_role r ON r.id = ur.role_id
         WHERE u.id = #{id} AND r.enabled = #{enabled}
     </select>
-    <!--##############################################################-->
+    <!--############## if 标签 #############################-->
     <select id="selectWithIf" resultType="SysUser">
         SELECT * FROM sys_user WHERE 1=1
         <if test="username != null and username != ''">
@@ -90,7 +117,7 @@
             AND user_password=#{password}
         </if>
     </select>
-    <!--############################################################-->
+    <!--############ choose 标签 #################################-->
     <select id="selectWithChoose" resultType="com.rayenyang.mybatis.pojo.SysUser">
         SELECT * FROM sys_user WHERE 1=1
         <choose>
@@ -105,7 +132,7 @@
             </otherwise>
         </choose>
     </select>
-    <!--##############################################################-->
+    <!--########## where 标签 ###############################-->
     <select id="selectWithWhere" resultType="com.rayenyang.mybatis.pojo.SysUser">
         SELECT * FROM sys_user
         <where>
@@ -117,7 +144,7 @@
             </if>
         </where>
     </select>
-    <!--############################################################-->
+    <!--########### set 标签 ##############################-->
     <update id="updateWithSet">
         UPDATE sys_user
         <set>
@@ -143,7 +170,7 @@
         </set>
         WHERE id=#{id}
     </update>
-    <!--############################################################-->
+    <!--############ for 标签 #################################-->
     <select id="selectWithFor" resultType="com.rayenyang.mybatis.pojo.SysUser">
         SELECT * FROM sys_user
         <where>
@@ -162,6 +189,45 @@
                 ${key}=#{val}
             </foreach>
         </where>
+    </select>
+    <select id="selectAllAndRole" resultMap="userRoleMap">
+        SELECT
+            u.id,
+            u.username,
+            u.user_info,
+            r.role_name
+        FROM sys_user u
+            INNER JOIN sys_user_role ur ON u.id = ur.user_id
+            INNER JOIN sys_role r ON ur.role_id = r.id
+    </select>
+
+    <select id="selectAllAndRole2" resultMap="userRoleMap2">
+        SELECT
+            u.*,
+            ur.role_id role_id
+        FROM sys_user u
+            INNER JOIN sys_user_role ur ON u.id = ur.user_id
+    </select>
+
+    <select id="selectAllAndRole3" resultMap="userRoleMap3">
+        SELECT
+            u.*,
+            r.id          AS role_id,
+            r.role_name   AS role_role_name,
+            r.enabled     AS role_enabled,
+            r.create_by   AS role_create_by,
+            r.create_time AS role_create_time
+        FROM sys_user u
+            INNER JOIN sys_user_role ur ON u.id = ur.user_id
+            INNER JOIN sys_role r ON r.id = ur.role_id
+    </select>
+
+    <select id="selectAllAndRole4" resultMap="userRoleMap4">
+        SELECT
+            u.*,
+            ur.role_id role_id
+        FROM sys_user u
+            INNER JOIN sys_user_role ur ON u.id = ur.user_id
     </select>
 
 </mapper>

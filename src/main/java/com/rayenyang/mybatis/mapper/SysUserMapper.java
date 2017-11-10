@@ -16,6 +16,14 @@ public interface SysUserMapper {
     
     List<SysUser> selectAll();
     
+    List<SysUser> selectAllAndRole();
+    
+    List<SysUser> selectAllAndRole2();
+    
+    List<SysUser> selectAllAndRole3();
+    
+    List<SysUser> selectAllAndRole4();
+    
     SysRole selectRoleById(int id);
     
     int insertUser(SysUser user);

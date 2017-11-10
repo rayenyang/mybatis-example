@@ -2,6 +2,7 @@ package com.rayenyang.mybatis.pojo;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 /**
  * description:
@@ -15,6 +16,8 @@ public class SysUser {
     private String userInfo;
     private byte[] headImg;
     private Date createTime;
+    private SysRole role;
+    private List<SysRole> roleList;
     
     @Override
     public String toString() {
@@ -26,7 +29,26 @@ public class SysUser {
                 ", userInfo='" + userInfo + '\'' +
                 ", headImg=" + Arrays.toString(headImg) +
                 ", createTime=" + createTime +
+                ", role=" + role +
+                ", roleList=" + roleList +
                 '}';
+    }
+    
+    
+    public List<SysRole> getRoleList() {
+        return roleList;
+    }
+    
+    public void setRoleList(List<SysRole> roleList) {
+        this.roleList = roleList;
+    }
+    
+    public SysRole getRole() {
+        return role;
+    }
+    
+    public void setRole(SysRole role) {
+        this.role = role;
     }
     
     public Long getId() {

@@ -12,7 +12,6 @@ public class SysRole {
     private boolean enabled;
     private Long createBy;
     private Date createTime;
-    private SysUser user;
     
     @Override
     public String toString() {
@@ -22,16 +21,7 @@ public class SysRole {
                 ", enabled=" + enabled +
                 ", createBy=" + createBy +
                 ", createTime=" + createTime +
-                ", userName=" + user.getUserName() +
                 '}';
-    }
-    
-    public SysUser getUser() {
-        return user;
-    }
-    
-    public void setUser(SysUser user) {
-        this.user = user;
     }
     
     public long getId() {

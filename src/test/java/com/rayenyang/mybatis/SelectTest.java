@@ -56,5 +56,55 @@ public class SelectTest extends BaseTest {
         });
     }
     
+    @Test
+    public void testSelectAllAndRole(){
+        getSqlSession(sqlSession -> {
+            final SysUserMapper mapper = sqlSession.getMapper(SysUserMapper.class);
+            final List<SysUser> sysUsers = mapper.selectAllAndRole();
+            System.out.println(sysUsers);
+            Assert.assertTrue(sysUsers.size() > 0);
+            Assert.assertTrue(sysUsers.get(0).getRole() != null);
+        });
+    }
+    @Test
+    public void testSelectAllAndRole2(){
+        getSqlSession(sqlSession -> {
+            final SysUserMapper mapper = sqlSession.getMapper(SysUserMapper.class);
+            final List<SysUser> sysUsers = mapper.selectAllAndRole2();
+//            System.out.println(sysUsers);
+            Assert.assertTrue(sysUsers.size() > 0);
+            System.out.println("--------------------------------------");
+            for (SysUser sysUser : sysUsers) {
+                System.out.println(sysUser.getRole());
+            }
+        });
+    }
+    @Test
+    public void testSelectAllAndRole3(){
+        getSqlSession(sqlSession -> {
+            final SysUserMapper mapper = sqlSession.getMapper(SysUserMapper.class);
+            final List<SysUser> sysUsers = mapper.selectAllAndRole3();
+//            System.out.println(sysUsers);
+            Assert.assertTrue(sysUsers.size() > 0);
+            System.out.println("--------------------------------------");
+            for (SysUser sysUser : sysUsers) {
+                System.out.println(sysUser.getRoleList());
+            }
+        });
+    }
+    @Test
+    public void testSelectAllAndRole4(){
+        getSqlSession(sqlSession -> {
+            final SysUserMapper mapper = sqlSession.getMapper(SysUserMapper.class);
+            final List<SysUser> sysUsers = mapper.selectAllAndRole4();
+//            System.out.println(sysUsers);
+            Assert.assertTrue(sysUsers.size() > 0);
+            System.out.println("--------------------------------------");
+            for (SysUser sysUser : sysUsers) {
+                System.out.println(sysUser.getRoleList());
+            }
+        });
+    }
+    
     
 }

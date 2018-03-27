@@ -14,7 +14,7 @@
         <result property="headImg" column="head_img" jdbcType="BLOB"/>
         <result property="createTime" column="create_time"/>
     </resultMap>
-
+    <!--############# 一对一 ################-->
     <resultMap id="userRoleMap" type="SysUser" extends="userMap">
         <association property="role"
                      resultMap="com.rayenyang.mybatis.mapper.SysRoleMapper.roleMap"/>
@@ -25,6 +25,9 @@
                      select="com.rayenyang.mybatis.mapper.SysRoleMapper.selectById"
                      fetchType="lazy"/>
     </resultMap>
+    <!--############# 一对一 ################-->
+
+    <!--############# 一对多 ################-->
 
     <resultMap id="userRoleMap3" type="SysUser" extends="userMap">
         <collection property="roleList" ofType="SysRole"

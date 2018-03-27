@@ -16,6 +16,31 @@ import java.util.List;
 public class SelectTest extends BaseTest {
     
     @Test
+    public void cacheTest() throws Throwable{
+        final SqlSession sqlSession = sqlSessionFactory.openSession();
+        final SysUserMapper userMapper = sqlSession.getMapper(SysUserMapper.class);
+        final SysUser sysUser = userMapper.selectById(1);
+        System.out.println(sysUser);
+        sysUser.setUserName("ryen");
+        final SysUser sysUser1 = userMapper.selectById(1);
+        System.out.println(sysUser1);
+        sqlSession.close();
+        System.out.println("================================");
+        final SqlSession sqlSession1 = sqlSessionFactory.openSession();
+        final SysUserMapper userMapper1 = sqlSession1.getMapper(SysUserMapper.class);
+        final SysUser sysUser3 = userMapper1.selectById(1);
+        System.out.println(sysUser3);
+        sysUser3.setUserName("ooooooooooooooo");
+        sqlSession1.close();
+        final SqlSession sqlSession2 = sqlSessionFactory.openSession();
+        final SysUserMapper userMapper2 = sqlSession2.getMapper(SysUserMapper.class);
+    
+        final SysUser sysUser4 = userMapper2.selectById(1);
+        System.out.println(sysUser4);
+        sqlSession.close();
+    }
+    
+    @Test
     public void testSelectById() {
         try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
 //            final User user = sqlSession.selectOne("com.rayenyang.mybatis.mapper.UserMapper.selectById", 7);

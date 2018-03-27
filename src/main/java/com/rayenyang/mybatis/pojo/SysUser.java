@@ -1,5 +1,6 @@
 package com.rayenyang.mybatis.pojo;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -8,7 +9,8 @@ import java.util.List;
  * description:
  * Created by rayenyang on 2017/10/25.
  */
-public class SysUser {
+public class SysUser implements Serializable{
+    private static final long serialVersionUID = 6762149468085348397L;
     private Long id;
     private String userName;
     private String password;
